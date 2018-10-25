@@ -5,15 +5,32 @@ namespace ptext
 {
     class Program
     {
-        private static string GeneratePyramidText(string args)
+        private static string[] AskUserForSplitString(string info)
+        {
+            string s = "";
+            do
+            {
+                Console.Clear();
+                Console.WriteLine(info);
+                s = Console.ReadLine();
+            }
+            while (s.Length == 0);
+            return s.Split(' ');
+        }
+
+        private static string GeneratePyramidText(string text)
         {
             string s = "";
             string allChars = "";
-            foreach (char c in args)
+            foreach (char character in text)
             {
-                allChars += c;
-                if (c != ' ')
-                    s += $"{allChars}\n";
+                allChars += character;
+                if (character != ' ')
+                {
+                    if (text.Length == 1)
+                        s += $"{allChars}";
+                    else s += $"{allChars}\n";
+                }
             }
             while (allChars.Length > 1)
             {
@@ -32,9 +49,7 @@ namespace ptext
         static void Main(string[] args)
         {
             if (args.Length == 0)
-            {
-                throw new Exception("Args are empty!");
-            }
+                args = AskUserForSplitString("Enter text to become pyramid text:");
             Clipboard.SetText(GeneratePyramidText(string.Join(" ", args)));
             Console.WriteLine("Copied to clipboard.");
         }
